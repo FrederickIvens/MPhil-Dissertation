@@ -1,8 +1,12 @@
-venv
-previous_project
-.DS_Store
-*/Histroric_raw_data
-*__pycache__*
-*/demand
-Examples
-*/supply
+# Ignore everything
+/*
+
+# Do not ignore .gitignore file itself
+!.gitignore
+
+# Do not ignore the Codes directory
+!Codes/
+
+# Ignore everything inside Codes directory except its content
+/Codes/*
+!/Codes/src/
