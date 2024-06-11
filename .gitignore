@@ -12,4 +12,3 @@
 
 # Do not ignore the src directory inside Codes
 !Codes/src/
-!Codes/src/**
