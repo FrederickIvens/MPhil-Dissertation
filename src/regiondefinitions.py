@@ -1,73 +1,73 @@
 # Dictionary containing the regions, coordinates, and countries
 regions_dic = {
-    1: {
-        "member": "Bus 1",
+    "north_america": {
+        "bus": 1,
         "region": "north_america",
         "coordinates": (-106.5, 38.3),
         "countries": sorted(["Canada", "United States of America", "Mexico"])
     },
-    2: {
-        "member": "Bus 2",
+    "latin_america": {
+        "bus": 2,
         "region": "latin_america",
         "coordinates": (-60.5, -13.3),
         "countries": sorted(["Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Cuba", "Dominican Rep.", "Ecuador", "Guatemala", "Haiti", "Honduras", "Paraguay", "Peru", "Uruguay", "Venezuela", "Belize", "Costa Rica", "El Salvador", "Guyana", "Jamaica", "Nicaragua", "Panama", "Suriname", "Trinidad and Tobago"])
     },
-    3: {
-        "member": "Bus 3",
+    "oceania": {
+        "bus": 3,
         "region": "oceania",
         "coordinates": (134.4, -22.6),
         "countries": sorted(["Australia", "New Zealand", "Cook Island", "Fiji", "Tonga", "Tuvalu", "Vanuatu", "New Caledonia", "Papua New Guinea", "Solomon Is."])
     },
-    4: {
-        "member": "Bus 4",
+    "north_asia": {
+        "bus": 4,
         "region": "north_asia",
         "coordinates": (116, 40.1),
         "countries": sorted(["China", "Hong Kong", "Japan", "Mongolia", "South Korea", "Taiwan", "North Korea"])
     },
-    5: {
-        "member": "Bus 5",
+    "south_asia": {
+        "bus": 5,
         "region": "south_asia",
         "coordinates": (114, 0.2),
         "countries": sorted(["Brunei", "Cambodia", "Indonesia", "Laos", "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Timor-Leste", "Vietnam", "Maldives"])
     },
-    6: {
-        "member": "Bus 6",
+    "north_west_asia": {
+        "bus": 6,
         "region": "north_west_asia",
         "coordinates": (69.7, 48.6),
         "countries": sorted(["Afghanistan", "Azerbaijan", "Kazakhstan", "Kyrgyzstan", "Tajikistan", "Turkmenistan", "Uzbekistan", "Armenia", "Georgia", "Turkey"])
     },
-    7: {
-        "member": "Bus 7",
+    "south_west_asia": {
+        "bus": 7,
         "region": "south_west_asia",
         "coordinates": (74.2, 18.7),
         "countries": sorted(["Bangladesh", "Bhutan", "India", "Nepal", "Pakistan", "Sri Lanka"])
     },
-    8: {
-        "member": "Bus 8",
+    "middle_east": {
+        "bus": 8,
         "region": "middle_east",
         "coordinates": (42.9, 29.7),
         "countries": sorted(["Bahrain", "Iran", "Iraq", "Israel", "Jordan", "Kuwait", "Lebanon", "Oman", "Qatar", "Saudi Arabia", "Syria", "United Arab Emirates", "Yemen", "Azerbaijan", "Georgia", "Turkey", "Armenia", "Cyprus", "Palestine"])
     },
-    9: {
-        "member": "Bus 9",
+    "europe": {
+        "bus": 9,
         "region": "europe",
         "coordinates": (10, 50),
         "countries": sorted(["Albania", "Austria", "Belgium", "Bosnia and Herz.", "Bulgaria", "Croatia", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "United Kingdom", "Kosovo", "North Macedonia", "Moldova"])
     },
-    10: {
-        "member": "Bus 10",
+    "ups": {
+        "bus": 10,
         "region": "ups",
         "coordinates": (74, 66),
         "countries": sorted(["Belarus", "Russia", "Ukraine"])
     },
-    11: {
-        "member": "Bus 11",
+    "north_africa": {
+        "bus": 11,
         "region": "north_africa",
         "coordinates": (-0.75, 27.5),
         "countries": sorted(["Algeria", "Egypt", "Libya", "Morocco", "Tunisia", "W. Sahara", "Sudan"])
     },
-    12: {
-        "member": "Bus 12",
+    "africa": {
+        "bus": 12,
         "region": "africa",
         "coordinates": (21.6, -14),
         "countries": sorted([
@@ -80,20 +80,19 @@ regions_dic = {
             "Sierra Leone", "Somalia", "South Africa", "S. Sudan", "Tanzania", "Togo", 
             "Uganda", "Zambia", "Zimbabwe"])
     },
-    13: {
-        "member": "Bus 13",
+    "atlantic_north": {
+        "bus": 13,
         "region": "atlantic_north",
         "coordinates": (-45, 62),
         "countries": ["Greenland", "Iceland"]
     },
-    14: {
-        "member": "Bus 14",
+    "alaska": {
+        "bus": 14,
         "region": "alaska",
         "coordinates": (-152, 63),
         "countries": []
     }
 }
-
 
 # Dictionary to store information about the links 
 links_dic = {
