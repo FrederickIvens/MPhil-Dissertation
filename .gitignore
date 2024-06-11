@@ -7,6 +7,9 @@
 # Do not ignore the Codes directory
 !Codes/
 
-# Ignore everything inside Codes directory except its content
+# Ignore everything inside Codes directory
 /Codes/*
-!/Codes/src/
+
+# Do not ignore the src directory inside Codes
+!Codes/src/
+!Codes/src/**
