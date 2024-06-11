@@ -1,14 +1,3 @@
-# Ignore everything
-/*
-
-# Do not ignore .gitignore file itself
-!.gitignore
-
-# Do not ignore the Codes directory
-!Codes/
-
-# Ignore everything inside Codes directory
-/Codes/*
-
-# Do not ignore the src directory inside Codes
-!Codes/src/
+/data*
+/venv*
+/tests*
