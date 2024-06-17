@@ -10,7 +10,7 @@ regions_dic = {
         "bus": 2,
         "region": "latin_america",
         "coordinates": (-60.5, -13.3),
-        "countries": sorted(["Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Cuba", "Dominican Rep.", "Ecuador", "Guatemala", "Haiti", "Honduras", "Paraguay", "Peru", "Uruguay", "Venezuela", "Belize", "Costa Rica", "El Salvador", "Guyana", "Jamaica", "Nicaragua", "Panama", "Suriname", "Trinidad and Tobago"])
+        "countries": sorted(["Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Cuba", "Dominican Rep.", "Ecuador", "Guatemala", "Haiti", "Honduras", "Paraguay", "Peru", "Puerto Rico", "Uruguay", "Venezuela", "Belize", "Costa Rica", "El Salvador", "Guyana", "Jamaica", "Nicaragua", "Panama", "Suriname", "Trinidad and Tobago"])
     },
     "oceania": {
         "bus": 3,
@@ -46,13 +46,13 @@ regions_dic = {
         "bus": 8,
         "region": "middle_east",
         "coordinates": (42.9, 29.7),
-        "countries": sorted(["Bahrain", "Iran", "Iraq", "Israel", "Jordan", "Kuwait", "Lebanon", "Oman", "Qatar", "Saudi Arabia", "Syria", "United Arab Emirates", "Yemen", "Azerbaijan", "Georgia", "Turkey", "Armenia", "Cyprus", "Palestine"])
+        "countries": sorted(["Bahrain", "Iran", "Iraq", "Israel", "Jordan", "Kuwait", "Lebanon", "Oman", "Qatar", "Saudi Arabia", "Syria", "United Arab Emirates", "Yemen", "Cyprus", "Palestine"])
     },
     "europe": {
         "bus": 9,
         "region": "europe",
         "coordinates": (10, 50),
-        "countries": sorted(["Albania", "Austria", "Belgium", "Bosnia and Herz.", "Bulgaria", "Croatia", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "United Kingdom", "Kosovo", "North Macedonia", "Moldova"])
+        "countries": sorted(["Albania", "Austria", "Belgium", "Bosnia and Herz.", "Bulgaria", "Croatia", "Czechia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Montenegro", "Netherlands", "N. Cyprus", "Norway", "Poland", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "United Kingdom", "Kosovo", "North Macedonia", "Moldova"])
     },
     "ups": {
         "bus": 10,
@@ -64,7 +64,7 @@ regions_dic = {
         "bus": 11,
         "region": "north_africa",
         "coordinates": (-0.75, 27.5),
-        "countries": sorted(["Algeria", "Egypt", "Libya", "Morocco", "Tunisia", "W. Sahara", "Sudan"])
+        "countries": sorted(["Algeria", "Egypt", "Libya", "Morocco", "Tunisia", "W. Sahara", "Sudan", "Somaliland"])
     },
     "africa": {
         "bus": 12,
@@ -86,12 +86,6 @@ regions_dic = {
         "coordinates": (-45, 62),
         "countries": ["Greenland", "Iceland"]
     },
-    "alaska": {
-        "bus": 14,
-        "region": "alaska",
-        "coordinates": (-152, 63),
-        "countries": []
-    }
 }
 
 # Dictionary to store information about the links 
@@ -104,18 +98,10 @@ links_dic = {
         "type": "OH",
         "efficiency": 0.0
     },
-    "1_14": {
-        "name": "north_america_to_alaska",
+    "1_10": {
+        "name": "north_america_to_ups",
         "bus0": (1, "north_america"),
-        "bus1": (14, "alaska"),
-        "length": None,
-        "type": "OH",
-        "efficiency": 0.0
-    },
-    "14_10": {
-        "name": "alaska_to_ups",
-        "bus0": (14, "alaska"),
-        "bus1": (10, "ups"),
+        "bus1": (14, "ups"),
         "length": None,
         "type": "OH",
         "efficiency": 0.0
