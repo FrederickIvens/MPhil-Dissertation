@@ -83,6 +83,14 @@ def vre_gen_potential_atlite(gisregion: str, carrier: str, year: int, density: i
     series = pd.Series(series_sum, index=time_index)
     return series * density * land_available * 1E-06 # MW
 
+def region_area(gisregion: int):
+      countries = get_countries(gisregion)
+      all_regions = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+      region = all_regions[all_regions['name'].isin(countries)]
+      region = region.to_crs(epsg=3395)
+      areas = region.geometry.area.values
+      total_area = sum(areas)
+      return total_area
 
 def syntheticdemand_gis(path: str, gisregion: str, sspscenario: str, era_year: int = 2018, year: int=2050):
       sspscenarios = (
