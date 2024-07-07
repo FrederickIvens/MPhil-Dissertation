@@ -1,3 +1,8 @@
 /data*
 /venv*
 /tests*
+/src/countries
+/src/model
+/src/plotting
+/src/pypsa_example
+/src/pypsa_example_links_generate_power

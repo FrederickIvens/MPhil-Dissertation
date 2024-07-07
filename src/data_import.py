@@ -76,7 +76,7 @@ def vre_gen_potential_atlite(gisregion: str, carrier: str, year: int, density: i
     region = all_regions[all_regions['name'].isin(countries)]
     region = region.to_crs(epsg=3395) # Re-project the geometries to a suitable projected CRS (e.g., EPSG:3395 - World Mercator)
     values = ds['__xarray_dataarray_variable__'].values
-    areas = region.geometry.area.values
+    areas = region.geometry.area.values # m2
     if values.shape[1] != areas.shape[0]:
         raise ValueError(f"Shape mismatch: values shape {values.shape[1]} and areas shape {areas.shape[0]}")
     series_sum = (values * areas).sum(axis=1)
