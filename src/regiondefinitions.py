@@ -101,7 +101,7 @@ links_dic = {
     "1_10": {
         "name": "north_america_to_ups",
         "bus0": (1, "north_america"),
-        "bus1": (14, "ups"),
+        "bus1": (10, "ups"),
         "length": None,
         "type": "OH",
         "efficiency": 0.0
@@ -150,6 +150,14 @@ links_dic = {
         "name": "north_asia_to_ups",
         "bus0": (4, "north_asia"),
         "bus1": (10, "ups"),
+        "length": None,
+        "type": "OH",
+        "efficiency": 0.0
+    },
+    "5_7": {
+        "name": "south_asia_to_south_west_asia",
+        "bus0": (5, "south_asia"),
+        "bus1": (7, "south_west_asia"),
         "length": None,
         "type": "OH",
         "efficiency": 0.0
