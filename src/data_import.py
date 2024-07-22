@@ -50,21 +50,6 @@ def res_capacity_atlite(filepath: str, gisregion: str, carrier: str, year: int):
       
       else:
             raise ValueError("Invalid carrier. Available: \"wind\"; \"pv\".")
-    
-# def vre_gen_potential_atlite(gisregion: str, carrier: str, year: int, density: int = 1.0, land_available: int = 1.0):
-#       print(f"Calculating {carrier} for {gisregion}")
-#       filepath = f"/Volumes/fi246disk/Atlite/{carrier}_cap_f/{carrier}-cap-factors-{gisregion}-{year}-jan-dec-hourly.nc"
-#       ds = xr.open_dataset(filepath)
-#       time_index = pd.date_range(start="2050-01-01 00:00:00", end="2050-12-31 23:00:00", freq="h")
-#       countries = get_countries(gisregion)
-#       all_regions = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-#       region = all_regions[all_regions['name'].isin(countries)]
-#       values = ds['__xarray_dataarray_variable__'].values
-#       areas = region.geometry.area.values
-#       total_area = areas.sum()
-#       series_w_avg = (values @ areas) / total_area
-#       series = pd.Series(series_w_avg, index=time_index)
-#       return series * density * land_available
 
 def vre_gen_potential_atlite(gisregion: str, carrier: str, year: int, density: int = 1.0, land_available: int = 1.0):
     #print(f"Calculating {carrier} for {gisregion}")
@@ -74,7 +59,7 @@ def vre_gen_potential_atlite(gisregion: str, carrier: str, year: int, density: i
     countries = get_countries(gisregion)
     all_regions = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
     region = all_regions[all_regions['name'].isin(countries)]
-    region = region.to_crs(epsg=3395) # Re-project the geometries to a suitable projected CRS (e.g., EPSG:3395 - World Mercator)
+    region = region.to_crs(epsg=3395) # Re-project the geometries to a suitable projected CRS 
     values = ds['__xarray_dataarray_variable__'].values
     areas = region.geometry.area.values # m2
     if values.shape[1] != areas.shape[0]:
@@ -87,7 +72,7 @@ def region_area(gisregion: int):
       countries = get_countries(gisregion)
       all_regions = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
       region = all_regions[all_regions['name'].isin(countries)]
-      region = region.to_crs(epsg=3395)
+      region = region.to_crs(epsg=5070)
       areas = region.geometry.area.values
       total_area = sum(areas)
       return total_area
