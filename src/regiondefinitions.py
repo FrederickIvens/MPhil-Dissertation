@@ -2,73 +2,73 @@
 regions_dic = {
     "north_america": {
         "bus": 1,
-        "region": "north_america",
+        "region": "North America",
         "coordinates": (-106.5, 38.3),
         "countries": sorted(["Canada", "United States of America", "Mexico"])
     },
     "latin_america": {
         "bus": 2,
-        "region": "latin_america",
+        "region": "Latin America",
         "coordinates": (-60.5, -13.3),
         "countries": sorted(["Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Cuba", "Dominican Rep.", "Ecuador", "Guatemala", "Haiti", "Honduras", "Paraguay", "Peru", "Puerto Rico", "Uruguay", "Venezuela", "Belize", "Costa Rica", "El Salvador", "Guyana", "Jamaica", "Nicaragua", "Panama", "Suriname", "Trinidad and Tobago"])
     },
     "oceania": {
         "bus": 3,
-        "region": "oceania",
+        "region": "Oceania",
         "coordinates": (134.4, -22.6),
         "countries": sorted(["Australia", "New Zealand", "Cook Island", "Fiji", "Tonga", "Tuvalu", "Vanuatu", "New Caledonia", "Papua New Guinea", "Solomon Is."])
     },
     "north_asia": {
         "bus": 4,
-        "region": "north_asia",
+        "region": "North Asia",
         "coordinates": (116, 40.1),
         "countries": sorted(["China", "Hong Kong", "Japan", "Mongolia", "South Korea", "Taiwan", "North Korea"])
     },
     "south_asia": {
         "bus": 5,
-        "region": "south_asia",
+        "region": "South Asia",
         "coordinates": (114, 0.2),
         "countries": sorted(["Brunei", "Cambodia", "Indonesia", "Laos", "Malaysia", "Myanmar", "Philippines", "Singapore", "Thailand", "Timor-Leste", "Vietnam", "Maldives"])
     },
     "north_west_asia": {
         "bus": 6,
-        "region": "north_west_asia",
+        "region": "North West Asia",
         "coordinates": (69.7, 48.6),
         "countries": sorted(["Afghanistan", "Azerbaijan", "Kazakhstan", "Kyrgyzstan", "Tajikistan", "Turkmenistan", "Uzbekistan", "Armenia", "Georgia", "Turkey"])
     },
     "south_west_asia": {
         "bus": 7,
-        "region": "south_west_asia",
+        "region": "South West Asia",
         "coordinates": (74.2, 18.7),
         "countries": sorted(["Bangladesh", "Bhutan", "India", "Nepal", "Pakistan", "Sri Lanka"])
     },
     "middle_east": {
         "bus": 8,
-        "region": "middle_east",
+        "region": "Middle East",
         "coordinates": (42.9, 29.7),
         "countries": sorted(["Bahrain", "Iran", "Iraq", "Israel", "Jordan", "Kuwait", "Lebanon", "Oman", "Qatar", "Saudi Arabia", "Syria", "United Arab Emirates", "Yemen", "Cyprus", "Palestine"])
     },
     "europe": {
         "bus": 9,
-        "region": "europe",
+        "region": "Europe",
         "coordinates": (10, 50),
         "countries": sorted(["Albania", "Austria", "Belgium", "Bosnia and Herz.", "Bulgaria", "Croatia", "Czechia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Montenegro", "Netherlands", "N. Cyprus", "Norway", "Poland", "Portugal", "Romania", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "United Kingdom", "Kosovo", "North Macedonia", "Moldova"])
     },
     "ups": {
         "bus": 10,
-        "region": "ups",
+        "region": "UPS",
         "coordinates": (74, 66),
         "countries": sorted(["Belarus", "Russia", "Ukraine"])
     },
     "north_africa": {
         "bus": 11,
-        "region": "north_africa",
+        "region": "North Africa",
         "coordinates": (-0.75, 27.5),
         "countries": sorted(["Algeria", "Egypt", "Libya", "Morocco", "Tunisia", "W. Sahara", "Sudan", "Somaliland"])
     },
     "africa": {
         "bus": 12,
-        "region": "africa",
+        "region": "Africa",
         "coordinates": (21.6, -14),
         "countries": sorted([
             "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi", "Cabo Verde", "Cameroon", 
@@ -82,10 +82,26 @@ regions_dic = {
     },
     "atlantic_north": {
         "bus": 13,
-        "region": "atlantic_north",
+        "region": "Atlantic North",
         "coordinates": (-45, 62),
         "countries": ["Greenland", "Iceland"]
     },
+}
+
+region_crs = {
+    "atlantic_north": 32629,  # UTM zone 29N (covers parts of the North Atlantic)
+    "africa": 4326,  # Africa Albers Equal Area Conic
+    "north_africa": 32634,  # UTM zone 34N
+    "ups": 3413,  # NSIDC Sea Ice Polar Stereographic North
+    "south_west_asia": 32638,  # UTM zone 38N
+    "north_west_asia": 32642,  # UTM zone 42N
+    "south_asia": 32643,  # UTM zone 43N
+    "north_asia": 32645,  # UTM zone 45N
+    "latin_america": 4326,  # South America Albers Equal Area Conic
+    "europe": 3035,  # ETRS89 / LAEA Europe
+    "north_america": 5070,  # USA Contiguous Albers Equal Area Conic
+    "middle_east": 32637,  # UTM zone 37N
+    "oceania": 3577,  # GDA94 / Australian Albers
 }
 
 # Dictionary to store information about the links 
