@@ -88,29 +88,36 @@ def check_countries():
             total_difference = list(set(all_countries['name']) - set(all_region_countries))
             print(total_difference)
 
-def vre_gen_potential_atlite_granularity(gisregion: str, carrier: str, year: int, density: int = 1.0, land_available: int = 1.0, resolution: float = 2.0):
-      filepath = f"/Volumes/fi246disk/Atlite/{carrier}_cap_f_granularity_{resolution}/{carrier}_capacity_factors_{gisregion}_{year}_gran_{resolution}.pkl"
+def check_pickle(path: str, gisregion: str, carrier: str, year: int, density: int = 1.0, land_available: int = 1.0, resolution: float = 2.0):
+      filepath = f"{path}/{carrier}_cap_f_granularity_{resolution}/{carrier}_capacity_factors_{gisregion}_{year}_gran_{resolution}.pkl"
       with open(filepath, 'rb') as f:
             dfs = pickle.load(f) 
+      print(dfs)
+
+def vre_gen_potential_atlite_granularity(path: str, gisregion: str, carrier: str, year: int, density: int = 1.0, land_available: int = 1.0, resolution: float = 2.0):
+      filepath = f"{path}/{carrier}_cap_f_granularity_{resolution}/{carrier}_capacity_factors_{gisregion}_{year}_gran_{resolution}.pkl"
+      with open(filepath, 'rb') as f:
+            dfs = pickle.load(f)
+      print(f"Data loaded successfully for {gisregion}. Number of items in dfs: {len(dfs)}")
       start_datetime = pd.Timestamp(f'2050-01-01 00:00:00')
       end_datetime = pd.Timestamp(f'2050-12-31 23:00:00')
       time_index = pd.date_range(start=start_datetime, end=end_datetime, freq='h')
-      cfs = []
-      caps = []
-      for key, df in dfs.items():
-            if gisregion == 'ups':
-                  print(key)
-            cf_series = df['mean_cf']
-            cf_series = df['mean_cf'].reset_index(drop=True)
-            cf_series.index = time_index[:len(cf_series)] 
-            cfs.append(cf_series)
-            area = df['total_area'].iloc[0] 
-            cap = area * density * land_available * 1E-06 # MW
-            caps.append(cap)
-      return cfs, caps
 
-def vre_gen_potential_atlite_granularity_total(gisregion: str, carrier: str, year: int, resolution, density: int = 1.0, land_available: int = 1.0):
-      filepath = f"/Users/frederickivens/Documents/MPhil_Energy_Technologies/Dissertation_Project/Codes/data/supply/{carrier}_cap_f_granularity_{resolution}/{carrier}_capacity_factors_{gisregion}_{year}_gran_{resolution}.pkl"
+      cf_combined = pd.DataFrame(index=time_index)
+      caps = []
+
+      for key, df in dfs.items():
+            cf_series = df['mean_cf'].reset_index(drop=True)
+            cf_series.index = time_index[:len(cf_series)]
+            cf_combined[key] = cf_series
+            area = df['total_area'].iloc[0]
+            cap = area * density * land_available * 1E-06  # MW
+            caps.append(cap)
+      caps_df = pd.Series(caps, index=cf_combined.columns)
+      return cf_combined.copy(), caps_df
+
+def vre_gen_potential_atlite_granularity_total(path: str, gisregion: str, carrier: str, year: int, resolution, density: int = 1.0, land_available: int = 1.0):
+      filepath = f"{path}/{carrier}_cap_f_granularity_{resolution}/{carrier}_capacity_factors_{gisregion}_{year}_gran_{resolution}.pkl"
       start_datetime = pd.Timestamp(f'2050-01-01 00:00:00')
       end_datetime = pd.Timestamp(f'2050-12-31 23:00:00')
       time_index = pd.date_range(start=start_datetime, end=end_datetime, freq='h')
@@ -121,6 +128,99 @@ def vre_gen_potential_atlite_granularity_total(gisregion: str, carrier: str, yea
       cf_series = df['mean_cf'].reset_index(drop=True)
       cf_series.index = time_index[:len(cf_series)] 
       area = df['total_area'].iloc[0]
+      print(f'{gisregion}: area: {area:.2e}')
       cap = area * density * land_available * 1E-06 # MW
       return cf_series, cap
 
+
+def renewable_potential_atlite_total(gisregion: str, carrier: str, year: int, cutoutpath: str, outputpath: str, resolution: str = 'total'):
+    wind_path = f'{outputpath}/wind_cap_f_granularity_{resolution}'
+    pv_path = f'{outputpath}/pv_cap_f_granularity_{resolution}'
+    os.makedirs(wind_path, exist_ok=True)
+    os.makedirs(pv_path, exist_ok=True)
+    cutout = atlite.Cutout(path=cutoutpath)
+    countries = get_countries(gisregion)
+    all_regions = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+    region = all_regions[all_regions['name'].isin(countries)]
+    region.to_crs(epsg=4326)
+    crs_system = region_crs[gisregion]
+    combined_bounds = unary_union(region['geometry'])
+    multipoly = combined_bounds.geoms
+    region_areas = [gpd.GeoSeries([poly], crs=4326).to_crs(epsg=crs_system).area.values[0] for poly in multipoly]
+    region_area_total = sum(region_areas)
+    
+    mean_cfs = []
+    regions_areas_considered = []
+    for j, poly in enumerate(multipoly):
+        poly_bounds = poly.bounds
+        minlon0 = poly_bounds[0]
+        maxlon0 = poly_bounds[2]
+        minlat0 = poly_bounds[1]
+        maxlat0 = poly_bounds[3]
+        length_lon = abs(minlon0 - maxlon0)
+        length_lat = abs(minlat0 - maxlat0)
+        print(length_lon, length_lat)
+        if length_lon <= 1 or length_lat <= 1:
+            print('Polygon too small, skipping.')
+            continue
+        regions_areas_considered.append(region_areas[j])
+        region_cutout = cutout.sel(bounds=poly_bounds)
+        shape = region_cutout.grid[region_cutout.grid.intersects(poly)]
+        ax = region.plot(color='blue', edgecolor='black', alpha=0.5, figsize=(5, 5))
+        shape.plot(ax=ax, color='red', edgecolor='black', alpha=0.5)
+        print(f"Calculating {carrier} capacity factors for {gisregion}_{j}...")
+        if carrier == "wind":
+            wind = region_cutout.wind( 
+                    turbine="Vestas_V112_3MW", 
+                    shapes=shape,
+                    per_unit=True
+            )
+            mean_cf = wind.mean(dim='dim_0')
+            mean_cfs.append(mean_cf)
+        elif carrier == "pv":
+            pv = region_cutout.pv(
+                    panel='CSi',
+                    orientation="latitude_optimal",
+                    shapes=shape,
+                    per_unit=True
+            )
+            mean_cf = pv.mean(dim='dim_0')
+            mean_cfs.append(mean_cf)
+        else:
+            raise ValueError("Invalid carrier. Available.")
+
+    weighted_mean_cf = sum([cf * regions_areas_considered[i] for i, cf in enumerate(mean_cfs)]) / sum(regions_areas_considered)
+    weighted_mean_cf_df = weighted_mean_cf.to_dataframe(name=f'mean_cf')
+    weighted_mean_cf_df[f'total_area'] = region_area_total      
+    print(weighted_mean_cf_df.head())
+    output_pickle_path = f'D:/{carrier}_cap_f_granularity_{resolution}/{carrier}_capacity_factors_{gisregion}_{year}_gran_{resolution}.pkl'
+    with open(output_pickle_path, 'wb') as f:
+        pickle.dump(weighted_mean_cf_df, f)
+    print(f"File saved to {output_pickle_path}")
+cutoutpath = 'D:/FinishedCutouts/global-2022-jan-dec-era5-hourly.nc'
+#renewable_potential_atlite_total(gisregion='europe', carrier='wind', year=2022, cutoutpath=cutoutpath, outputpath='D:')
+
+def vre_gen_potential_atlite_granularity_2(path: str, gisregion: str, carrier: str, year: int, resolution, density: int = 1.0, land_available: int = 1.0):
+      filepath = f"{path}/{carrier}_cap_f_granularity_{resolution}/{carrier}_capacity_factors_{gisregion}_{year}_gran_{resolution}.pkl"
+      with open(filepath, 'rb') as f:
+            dfs = pickle.load(f)
+      print(f"Data loaded successfully for {gisregion}. Number of items in dfs: {len(dfs)}")
+      start_datetime_1 = pd.Timestamp(f'{year}-01-01 00:00:00')
+      end_datetime_1 = pd.Timestamp(f'{year}-12-31 23:00:00')
+      time_index_1 = pd.date_range(start=start_datetime_1, end=end_datetime_1, freq='h')
+      start_datetime_2 = pd.Timestamp(f'2050-01-01 00:00:00')
+      end_datetime_2 = pd.Timestamp(f'2050-12-31 23:00:00')
+      time_index_2 = pd.date_range(start=start_datetime_2, end=end_datetime_2, freq='h')
+
+      cf_combined = pd.DataFrame(index=time_index_2)
+      caps_list = []
+
+      for key, value in dfs.items():
+            cf_combined[key] = value[0]
+            area = value[1]
+            caps = area * density * land_available * 1E-06  # MW
+            caps_list.append(caps)
+      # Concatenate all series into a single DataFrame
+      caps_combined = pd.concat(caps_list, axis=1)
+      print(f'{gisregion} {carrier} has {caps_combined.shape[1]} cells.')
+      return cf_combined.copy(), caps_combined.copy()
